@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shop | Knotzy Handmade</title>
+
+<link rel="stylesheet" href="style.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+<script src="products.js"></script>
+
+</head>
+
+<body>
+
+<header>
+
+<h1>🌸 Knotzy Handmade</h1>
+
+<nav>
+<a href="index.html">Home</a>
+<a href="shop.html">Shop</a>
+<a href="cart.html" id="cartLink">Cart 🛒</a>
+</nav>
+
+</header>
+
+<section class="hero">
+
+<h2>Our Collection 💖</h2>
+
+<p>Choose your favourite handmade accessories.</p>
+
+</section>
+
+<section class="search-section">
+
+<input
+type="text"
+id="searchBox"
+placeholder="🔍 Search products..."
+onkeyup="searchProducts()">
+
+</section>
+
+<section class="categories">
+
+<button onclick="filterProducts('All')">💖 All</button>
+
+<button onclick="filterProducts('Bracelets')">
+📿 Bracelets
+</button>
+
+<button onclick="filterProducts('Earrings')">
+✨ Earrings
+</button>
+
+<button onclick="filterProducts('Phone Charms')">
+📱 Phone Charms
+</button>
+
+<button onclick="filterProducts('Keychains')">
+🔑 Keychains
+</button>
+
+<button onclick="filterProducts('Pendants')">
+💎 Pendants
+</button>
+
+</section>
+
+<section
+class="products"
+id="productsContainer">
+
+</section>
+
+<footer>
+
+Made with 💖 by Knotzy Handmade
+
+</footer>
+
+<script>
+
+let cart =
+JSON.parse(localStorage.getItem("cart"))
+|| [];
+
+document.getElementById("cartLink").innerHTML =
+`Cart 🛒 (${cart.length})`;
+
+let currentProducts = products;
+
+displayProducts(currentProducts);
+
+function displayProducts(list){
+
+let container =
+document.getElementById("productsContainer");
+
+container.innerHTML = "";
+
+list.forEach(product=>{
+
+container.innerHTML += `
+
+<div class="card">
+
+<a href="product.html?product=${product.id}">
+
+<img src="${product.image}"
+alt="${product.name}">
+
+</a>
+
+<a
+href="product.html?product=${product.id}"
+style="text-decoration:none;color:inherit;">
+
+<h3>${product.name}</h3>
+
+</a>
+
+<p>Rs.${product.price}</p>
+
+<button
+onclick="addToCart('${product.id}')">
+
+Add to Cart
+
+</button>
+
+</div>
+
+`;
+
+});
+
+}function addToCart(id){
+
+let product = products.find(p => p.id === id);
+
+let cart =
+JSON.parse(localStorage.getItem("cart"))
+|| [];
+
+cart.push({
+name: product.name,
+price: product.price,
+quantity: 1
+});
+
+localStorage.setItem(
+"cart",
+JSON.stringify(cart)
+);
+
+document.getElementById("cartLink").innerHTML =
+`Cart 🛒 (${cart.length})`;
+
+alert(product.name + " added to cart 🛒");
+
+}
+
+function searchProducts(){
+
+let text =
+document.getElementById("searchBox")
+.value
+.toLowerCase();
+
+let filtered =
+products.filter(product =>
+
+product.name
+.toLowerCase()
+.includes(text)
+
+);
+
+displayProducts(filtered);
+
+}
+
+function filterProducts(category){
+
+if(category === "All"){
+
+displayProducts(products);
+
+return;
+
+}
+
+let filtered =
+products.filter(product =>
+
+product.category === category
+
+);
+
+displayProducts(filtered);
+
+}</script>
+
+</body>
+</html>

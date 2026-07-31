@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Knotzy Handmade | Cart</title>
+
+<link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<h1>🌸 Knotzy Handmade</h1>
+
+<nav>
+
+<a href="index.html">Home</a>
+<a href="shop.html">Shop</a>
+<a href="cart.html">Cart 🛒</a>
+
+</nav>
+
+</header>
+
+
+
+<section class="hero">
+
+<h2>Your Cart 🛒</h2>
+
+<p>Your selected products</p>
+
+</section>
+
+
+
+<section id="cartItems" style="padding:40px;text-align:center;"></section>
+
+
+
+<footer>
+
+<p>© 2026 Knotzy Handmade</p>
+
+</footer>
+
+
+
+<script>
+
+
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
+
+let cartBox = document.getElementById("cartItems");
+
+
+let delivery = 300;
+
+
+
+function showCart(){
+
+
+cartBox.innerHTML = "";
+
+
+if(cart.length === 0){
+
+cartBox.innerHTML = "<h3>Your cart is empty.</h3>";
+
+return;
+
+}
+
+
+
+let total = 0;
+
+
+
+cartBox.innerHTML = "<h2>Your Products:</h2>";
+
+
+
+cart.forEach((item,index)=>{
+
+
+let itemTotal = item.price * item.quantity;
+
+
+total += itemTotal;
+
+
+
+cartBox.innerHTML += `
+
+
+<div class="cart-item">
+
+
+<h3>${item.name}</h3>
+
+
+<p>Price: Rs. ${item.price}</p>
+
+
+<button onclick="changeQuantity(${index}, -1)">
+-
+</button>
+
+
+<span style="padding:10px;">
+${item.quantity}
+</span>
+
+
+<button onclick="changeQuantity(${index}, 1)">
++
+</button>
+
+
+<p>
+Total: Rs. ${itemTotal}
+</p>
+
+
+<button onclick="removeItem(${index})">
+🗑️ Remove
+</button>
+
+
+</div>
+
+
+<hr>
+
+
+`;
+
+});
+
+
+
+cartBox.innerHTML += `
+
+
+<h3>Subtotal: Rs. ${total}</h3>
+
+<h3>Delivery Charges: Rs. ${delivery}</h3>
+
+<h2>Grand Total: Rs. ${total + delivery}</h2>
+
+
+<button onclick="checkoutWhatsApp()">
+
+Checkout on WhatsApp 💬
+
+</button>
+
+
+`;
+
+
+
+}
+
+
+
+function changeQuantity(index, change){
+
+
+cart[index].quantity += change;
+
+
+if(cart[index].quantity <= 0){
+
+cart.splice(index,1);
+
+}
+
+
+localStorage.setItem(
+
+"cart",
+
+JSON.stringify(cart)
+
+);
+
+
+showCart();
+
+
+}
+
+
+
+function removeItem(index){
+
+
+cart.splice(index,1);
+
+
+localStorage.setItem(
+
+"cart",
+
+JSON.stringify(cart)
+
+);
+
+
+showCart();
+
+
+}
+
+
+
+function checkoutWhatsApp(){
+
+
+let message =
+"🌸 *New Order - Knotzy Handmade* 🌸%0A%0A";
+
+
+let total = 0;
+
+
+
+cart.forEach((item,index)=>{
+
+
+message +=
+
+(index+1)+". "+
+
+item.name+
+
+" x "+
+
+item.quantity+
+
+" - Rs. "+
+
+(item.price * item.quantity)+
+
+"%0A";
+
+
+
+total += item.price * item.quantity;
+
+
+});
+
+
+
+message +=
+
+"%0A💰 Total: Rs. "+
+
+(total + delivery);
+
+
+
+window.open(
+
+"https://wa.me/923144837523?text="+message,
+
+"_blank"
+
+);
+
+
+}
+
+
+
+showCart();
+
+
+</script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Knotzy Handmade | Product</title>
+
+<link rel="stylesheet" href="style.css">
+
+<script src="products.js"></script>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<h1>🌸 Knotzy Handmade</h1>
+
+<nav>
+
+<a href="index.html">Home</a>
+
+<a href="shop.html">Shop</a>
+
+<a href="cart.html">Cart 🛒</a>
+
+</nav>
+
+</header>
+
+
+
+<section class="product-details" style="width:100%; text-align:center; padding:40px;"></section>
+
+<img id="productImage" width="300" style="display:block; margin:auto;">
+
+
+<h2 id="productName"></h2>
+
+
+<h3 id="productPrice"></h3>
+
+
+<p id="productDescription"></p>
+
+
+
+<button onclick="addToCart()">
+
+Add to Cart 🛒
+
+</button>
+
+
+<br><br>
+
+
+<a href="shop.html">
+
+<button>
+← Back to Shop
+</button>
+
+</a>
+
+
+</section>
+
+
+
+
+<script>
+
+
+const params = new URLSearchParams(window.location.search);
+
+
+const productId = params.get("product");
+
+
+const product = products.find(
+item => item.id === productId
+);
+
+
+
+if(product){
+
+
+document.getElementById("productImage").src =
+product.image;
+
+
+document.getElementById("productName").innerText =
+product.name;
+
+
+document.getElementById("productPrice").innerText =
+"Rs. " + product.price;
+
+
+document.getElementById("productDescription").innerText =
+product.description;
+
+
+}
+
+
+
+
+function addToCart(){
+
+
+let cart =
+JSON.parse(localStorage.getItem("cart"))
+|| [];
+
+
+
+cart.push({
+
+name: product.name,
+
+price: product.price,
+
+quantity: 1
+
+});
+
+
+localStorage.setItem(
+
+"cart",
+
+JSON.stringify(cart)
+
+);
+
+
+
+alert(product.name + " added to cart 🛒");
+
+
+}
+
+
+
+</script>
+
+
+</body>
+
+</html>
